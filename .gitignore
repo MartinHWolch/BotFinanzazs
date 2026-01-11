@@ -1,0 +1,6 @@
+downloads
+outputs
+processed_files.json
+__pycache__ 
+.env
+run_bot.bat
