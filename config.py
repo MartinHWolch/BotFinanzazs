@@ -9,6 +9,7 @@ EMAIL_USER = os.getenv("EMAIL_USER", "")
 EMAIL_PASS = os.getenv("EMAIL_PASS", "")
 PDF_PASSWORD = os.getenv("PDF_PASSWORD", "")  # Password for PDF decryption
 SAVE_DIR = os.getenv("SAVE_DIR", "./downloads")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 
 # Email Filters
 #ALLOWED_SENDERS = ["notificaciones@bancochile.cl", "enviodigital@bancochile.cl"]
@@ -16,20 +17,12 @@ ALLOWED_SENDERS = ["enviodigital@bancochile.cl"]
 
 TARGET_SUBJECT = "Cartola Cuenta Corriente"
 
-# Categorías y keywords por defecto
-CATEGORIES = {
-    "Alimentación": ["supermercado", "mercado", "comida", "market", "fruteria"],
-    "Transporte": ["uber", "cabify", "gasolinera", "peaje", "metro", "bus"],
-    "Vivienda": ["alquiler", "hipoteca", "mantenimiento", "luz", "agua", "gas"],
-    "Servicios básicos": ["internet", "telefono", "claro", "movistar", "entel"],
-    "Salud": ["farmacia", "medico", "hospital", "clinica", "doctor"],
-    "Educación": ["universidad", "curso", "colegio", "udemy", "platzi"],
-    "Entretenimiento": ["cine", "netflix", "spotify", "juego", "steam"],
-    "Compras": ["amazon", "mercadolibre", "falabella", "ripley", "zara"],
-    "Suscripciones": ["prime", "hbo", "disney", "apple"],
-    "Restaurantes": ["restaurante", "dominos", "starbucks", "mcdonalds", "burger"],
-    "Transferencias": ["transferencia", "traspaso"],
-    "Impuestos y comisiones": ["comision", "impuesto", "iva", "interes"],
-    "Ingresos": ["sueldo", "salario", "deposito", "abono"],
-    "Otros": []
-}
+# Date Range Configuration (cambiar según necesidad)
+# Formato: "DD-MMM-YYYY" ejemplo: "1-Jan-2025"
+DATE_START = os.getenv("DATE_START", "1-Jan-2025")  # Fecha inicio para buscar emails
+DATE_END = os.getenv("DATE_END", "31-Dec-2025")      # Fecha fin para buscar emails
+
+# Report Date Range (opcional, None = incluir todas las transacciones)
+REPORT_START_DATE = None  # Ejemplo: "2025-01-01" para filtrar reportes desde enero
+REPORT_END_DATE = None    # Ejemplo: "2025-12-31" para filtrar reportes hasta diciembre
+    

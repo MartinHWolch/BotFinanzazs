@@ -48,32 +48,21 @@ class EmailReader:
         # Hybrid approach: Filter by FROM on server (ASCII-safe), by SUBJECT in Python (has accent)
         from config import ALLOWED_SENDERS
         
-        # Build IMAP search with FROM filters (ALL emails, not just UNSEEN)
-        # Add date filter for year 2025: SINCE 1-Jan-2025 BEFORE 1-Jan-2026
-        date_filter = 'SINCE "1-Jan-2025" BEFORE "1-Jan-2026"'
+        # Build search query with date range from config
+        from config import DATE_START, DATE_END
         
-        # For 2 senders: OR FROM "sender1" FROM "sender2"
-        if len(ALLOWED_SENDERS) == 1:
-            search_query = f'{date_filter} FROM "{ALLOWED_SENDERS[0]}"'
-        elif len(ALLOWED_SENDERS) == 2:
-            search_query = f'{date_filter} OR FROM "{ALLOWED_SENDERS[0]}" FROM "{ALLOWED_SENDERS[1]}"'
-        else:
-            # For 3+ senders, build nested OR: OR FROM "A" OR FROM "B" FROM "C"
-            from_parts = [f'FROM "{s}"' for s in ALLOWED_SENDERS]
-            # Build right-to-left: OR first_sender OR second_sender third_sender
-            result = from_parts[-1]
-            for i in range(len(from_parts) - 2, -1, -1):
-                result = f'OR {from_parts[i]} {result}'
-            search_query = f'{date_filter} {result}'
+        # IMAP search: emails within date range (inclusive)
+        search_query = f'SINCE "{DATE_START}" BEFORE "{DATE_END}"'
         
-        print(f"IMAP Search: {search_query}")
+        print(f"🔍 Searching emails from {DATE_START} to {DATE_END}...")
+        
         status, messages = self.connection.search(None, search_query)
         
         email_ids = messages[0].split()
         if not email_ids:
             return []
 
-        print(f"Found {len(email_ids)} emails from allowed senders, filtering by subject...")
+        print(f"Found {len(email_ids)} emails in date range, filtering by sender and subject...")
         processed_emails = []
 
         for e_id in email_ids:
